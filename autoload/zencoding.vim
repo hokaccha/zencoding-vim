@@ -1,7 +1,7 @@
 "=============================================================================
 " zencoding.vim
 " Author: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-" Last Change: 22-Nov-2010.
+" Last Change: 26-Nov-2010.
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -751,7 +751,9 @@ function! zencoding#imageSize()
   endif
   let current = s:zen_parseTag(content)
   let fn = current.attr.src
-  if fn !~ '^\(/\|http\)'
+  if fn =~ '^/'
+    let fn = findfile(substitute(fn, '/', '', ''), '.;')
+  elseif fn !~ '^http'
     let fn = simplify(expand('%:h') . '/' . fn)
   endif
   let [type, width, height] = ['', -1, -1]
